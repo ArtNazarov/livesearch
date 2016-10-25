@@ -1,0 +1,126 @@
+<html>
+    <head>
+    <!-- admin@artnazarov.ru -->
+    <!-- https://github.com/artnazarov/ajaxlivesearch -->
+    <title>Ajax Live Search Demo</title>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        #search_form_view_cont {
+            display: none;
+            width:100%;
+            height:100%;
+            position:fixed;
+            top:0;
+            left:0;
+            background-color:#000;
+            opacity:0.53;
+            color:#fff;
+        }
+        #form_wrapper {
+            margin-top:20%;
+            margin-left:20%;
+        }
+        
+   #livesearch {
+   border: 1px solid #000;
+   border-radius: 3px; 
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px; 
+   -khtml-border-radius: 3px; 
+   background: #000 !important; 
+   outline: none; 
+   height: 30px;   
+   width: 40%;
+   color: #fff;
+   font-size: 28px;
+   font-family: Tahoma;
+   border-bottom:dashed thin #fff;
+}
+        
+    </style>        
+    </head>
+<body>
+    <input type="button" id="search_btn" value="search" class="btn">
+    <div id="search_form_view_cont">
+        <div id="form_wrapper">
+            <span id="cls_livesearch" style="cursor:pointer">&larr;</span><input type="text" name="livesearch" id="livesearch" value="" placeholder='Search...'>        
+        <div id="results_view_cont">
+            <div id="results">
+                no results
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready( function(){
+            
+            var products = [
+                
+                { id : 'liana', name : 'Liana', price : 5000, img : 'https://s-media-cache-ak0.pinimg.com/736x/02/45/38/0245380e1552c1b4f56f01345005f44a.jpg', show : false },
+                { id : 'milano', name : 'Milana', price : 6000, img : 'https://www.bollywoodpapa.com/wp-content/uploads/2015/08/eSHA.jpg', show : false },
+                { id : 'lidia', name : 'Lidia', price : 5000, img : 'https://s-media-cache-ak0.pinimg.com/736x/d8/9a/53/d89a5338399db0796a6e220ef9b5ad13.jpg', show : false },
+                { id : 'verona', name : 'Verona', price : 6000, img : 'https://s-media-cache-ak0.pinimg.com/736x/c8/27/50/c82750fa752e4f4424e107c9812d4109.jpg', show : false }
+                
+            ];
+
+            var hideProducts = function(){
+                for (var i=0;i<products.length;i++)  {
+                      products[i].show = false;
+                }
+                $('#results').html("");
+            }
+        
+            var searchInProducts = function(c){
+              for (var i=0;i<products.length;i++)  {
+                  //console.log(products[i].name)
+                  if (products[i].name.indexOf(c)>-1){
+                      console.log('found!');
+                      products[i].show = true;
+                      console.log(products[i]);
+                  }
+              }
+            };
+            
+            var renderProducts = function(){
+                var markup = "";
+                for (var i=0;i<products.length;i++)  {
+                    if (products[i].show){
+                        markup = markup + `<a href='#' title='${products[i].name}'><img height='240' width='auto' src='${products[i].img}'/></a>`;
+                    };                    
+                };
+                console.log(markup);
+                $('#results').html(markup);
+                
+            }
+            
+            console.log('ready!');
+            $('#search_btn').click( function()  {
+                    $('#search_form_view_cont').show();                    
+                    
+                    
+                });
+           
+            
+            
+           
+            $('#livesearch').on('input', function(){
+                var q = $('#livesearch').val();
+                console.log(q);                
+                hideProducts();
+                if (q !== "") {
+                searchInProducts(q);
+                    };
+                renderProducts();
+            });
+            
+            $('#cls_livesearch').click( function(){
+                $('#search_form_view_cont').hide();                    
+            });
+        
+        })
+        
+    </script>
+</body>
